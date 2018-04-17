@@ -15,14 +15,14 @@ class CreateDataAkademiksTable extends Migration
 		Schema::create('data_akademiks', function(Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
-			$table->string('nomor_un');
-			$table->string('nama_siswa');
+            $table->string('nomor_un');
+            $table->string('nama_siswa');
             $table->decimal('bahasa_indonesia')->nullable();
             $table->decimal('bahasa_inggris')->nullable();
             $table->decimal('matematika')->nullable();
             $table->decimal('ipa')->nullable();
-			$table->timestamps();
-			$table->softDeletes();
+            $table->timestamps();
+            $table->softDeletes();
         });
 	}
 
