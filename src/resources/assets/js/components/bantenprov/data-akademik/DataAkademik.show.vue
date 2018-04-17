@@ -5,6 +5,9 @@
 
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
+          <button class="btn btn-success btn-sm" role="button" @click="show">
+            <span class="fa fa-pencil"></span> EDIT
+          </button>
           <button class="btn btn-primary btn-sm" role="button" @click="back">
             <i class="fa fa-arrow-left" aria-hidden="true"></i>
           </button>
@@ -13,23 +16,27 @@
     </div>
 
     <div class="card-body">
-      <vue-form class="form-horizontal form-validation" :state="state" @submit.prevent="onSubmit">
-        <div class="form-row">
-          <div class="col-md">
-            <b>Label :</b> {{ model.label }}
-          </div>
-        </div>
+      <dl class="row">
+        <dt class="col-4">Nomor UN</dt>
+        <dd class="col-8">{{ model.nomor_un }}</dd>
 
+        <dt class="col-4">Nama Siswa</dt>
+        <dd class="col-8">{{ model.nama_siswa }}</dd>
 
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <b>Keterangan :</b> {{ model.keterangan }}
-          </div>
-        </div>
+        <dt class="col-4">Nilai Bahasa Indonesia</dt>
+        <dd class="col-8">{{ model.bahasa_indonesia }}</dd>
 
-        <div class="form-row mt-4">
-        </div>
-      </vue-form>
+        <dt class="col-4">Nilai Bahasa Inggris</dt>
+        <dd class="col-8">{{ model.bahasa_inggris }}</dd>
+
+        <dt class="col-4">Nilai Metematika</dt>
+        <dd class="col-8">{{ model.matematika }}</dd>
+
+        <dt class="col-4">Nilai IPA</dt>
+        <dd class="col-8">{{ model.ipa }}</dd>
+
+      </dl>
+
     </div>
     <div class="card-footer text-muted">
         <div class="row">
@@ -51,11 +58,15 @@ export default {
     axios.get('api/data-akademik/' + this.$route.params.id)
       .then(response => {
         if (response.data.status == true) {
-          this.model.label          = response.data.data_akademik.label;
-          this.model.user           = response.data.data_akademik.user;
-          this.model.keterangan     = response.data.data_akademik.keterangan;
-          this.model.created_at     = response.data.data_akademik.created_at;
-          this.model.updated_at     = response.data.data_akademik.updated_at;
+          this.model.user             = response.data.data_akademik.user;
+          this.model.nomor_un         = response.data.data_akademik.nomor_un;
+          this.model.nama_siswa       = response.data.data_akademik.nama_siswa;
+          this.model.bahasa_indonesia = response.data.data_akademik.bahasa_indonesia;
+          this.model.bahasa_inggris   = response.data.data_akademik.bahasa_inggris;
+          this.model.matematika       = response.data.data_akademik.matematika;
+          this.model.ipa              = response.data.data_akademik.ipa;
+          this.model.created_at       = response.data.data_akademik.created_at;
+          this.model.updated_at       = response.data.data_akademik.updated_at;
 
         }
         else {
@@ -72,17 +83,23 @@ export default {
     return {
       state: {},
       model: {
-        user:          "",
-        keterangan:       "",
-        label:            "",
-        created_at:       "",
-        updated_at:       "",
+        nomor_un          : '',
+        nama_siswa        : '',
+        bahasa_indonesia  : '',
+        bahasa_inggris    : '',
+        matematika        : '',
+        ipa               : '',
+        user              : '',
+        created_at        : '',
+        updated_at        : '',
 
       },
-      user: []
     }
   },
   methods: {
+    show() {
+      window.location = '#/admin/data-akademik/'+this.$route.params.id+'/edit';
+    },
     back() {
       window.location = '#/admin/data-akademik';
     }

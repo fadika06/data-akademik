@@ -52,8 +52,8 @@ class DataAkademikController extends Controller
         if ($request->exists('filter')) {
             $query->where(function($q) use($request) {
                 $value = "%{$request->filter}%";
-                $q->where('label', 'like', $value)
-                    ->orWhere('keterangan', 'like', $value);
+                $q->where('nama_siswa', 'like', $value)
+                    ->orWhere('nomor_un', 'like', $value);
             });
         }
 
@@ -112,30 +112,42 @@ class DataAkademikController extends Controller
         $data_akademik = $this->data_akademik;
 
         $validator = Validator::make($request->all(), [
-            'label'             => 'required',
-            'keterangan'        => 'required',
-            'user_id'           => 'required|unique:sekolahs,user_id',
+            'nomor_un'          => 'required|unique:data_akademiks,nomor_un',
+            'nama_siswa'        => 'required',
+            'bahasa_indonesia'  => 'required|numeric',
+            'bahasa_inggris'    => 'required|numeric',
+            'matematika'        => 'required|numeric',
+            'ipa'               => 'required|numeric',
+            'user_id'           => 'required',
         ]);
 
         if($validator->fails()){
-            $check = $data_akademik->where('user_id',$request->user_id)->whereNull('deleted_at')->count();
+            $check = $data_akademik->where('nomor_un',$request->nomor_un)->whereNull('deleted_at')->count();
 
             if ($check > 0) {
-                $response['message'] = 'Failed' . $request->user_id . ' already exists';
+                $response['message'] = 'Failed Nomor UN : ' . $request->nomor_un . ' already exists';
 
             } else {
-                $data_akademik->label             = $request->input('label');
-                $data_akademik->keterangan        = $request->input('keterangan');
+                $data_akademik->nomor_un          = $request->input('nomor_un');
+                $data_akademik->nama_siswa        = $request->input('nama_siswa');
                 $data_akademik->user_id           = $request->input('user_id');
+                $data_akademik->bahasa_indonesia  = $request->input('bahasa_indonesia');
+                $data_akademik->bahasa_inggris    = $request->input('bahasa_inggris');
+                $data_akademik->matematika        = $request->input('matematika');
+                $data_akademik->ipa               = $request->input('ipa');
                 $data_akademik->save();
 
                 $response['message'] = 'success';
             }
         } else {
-                $data_akademik->label             = $request->input('label');
-                $data_akademik->keterangan        = $request->input('keterangan');
-                $data_akademik->user_id           = $request->input('user_id');
-                $data_akademik->save();
+            $data_akademik->nomor_un          = $request->input('nomor_un');
+            $data_akademik->nama_siswa        = $request->input('nama_siswa');
+            $data_akademik->user_id           = $request->input('user_id');
+            $data_akademik->bahasa_indonesia  = $request->input('bahasa_indonesia');
+            $data_akademik->bahasa_inggris    = $request->input('bahasa_inggris');
+            $data_akademik->matematika        = $request->input('matematika');
+            $data_akademik->ipa               = $request->input('ipa');
+            $data_akademik->save();
 
             $response['message'] = 'success';
         }
@@ -193,40 +205,56 @@ class DataAkademikController extends Controller
     {
         $data_akademik = $this->data_akademik->findOrFail($id);
 
-        if ($request->input('old_user_id') == $request->input('user_id'))
+        if ($request->input('old_nomor_un') == $request->input('nomor_un'))
         {
             $validator = Validator::make($request->all(), [
-                'label'               => 'required',
-                'user_id'             => 'required',
-                'keterangan'          => 'required',
+                'nomor_un'          => 'required',
+                'nama_siswa'        => 'required',
+                'bahasa_indonesia'  => 'required|numeric',
+                'bahasa_inggris'    => 'required|numeric',
+                'matematika'        => 'required|numeric',
+                'ipa'               => 'required|numeric',
+                'user_id'           => 'required',
 
             ]);
         } else {
             $validator = Validator::make($request->all(), [
-                'label'             => 'required',
-                'keterangan'        => 'required',
-                'user_id'           => 'required|unique:data_akademiks,user_id',
+                'nomor_un'          => 'required|unique:data_akademiks,nomor_un',
+                'nama_siswa'        => 'required',
+                'bahasa_indonesia'  => 'required|numeric',
+                'bahasa_inggris'    => 'required|numeric',
+                'matematika'        => 'required|numeric',
+                'ipa'               => 'required|numeric',
+                'user_id'           => 'required',
             ]);
         }
 
         if ($validator->fails()) {
-            $check = $data_akademik->where('user_id',$request->user_id)->whereNull('deleted_at')->count();
+            $check = $data_akademik->where('nomor_un',$request->nomor_un)->whereNull('deleted_at')->count();
 
             if ($check > 0) {
-                $response['message'] = 'Failed,Username ' . $request->user_id . ' already exists';
+                $response['message'] = 'Failed Nomor UN : ' . $request->nomor_un . ' already exists';
             } else {
-                $data_akademik->label                 = $request->input('label');
-                $data_akademik->user_id               = $request->input('user_id');
-                $data_akademik->keterangan            = $request->input('keterangan');
+                $data_akademik->nomor_un          = $request->input('nomor_un');
+                $data_akademik->nama_siswa        = $request->input('nama_siswa');
+                $data_akademik->user_id           = $request->input('user_id');
+                $data_akademik->bahasa_indonesia  = $request->input('bahasa_indonesia');
+                $data_akademik->bahasa_inggris    = $request->input('bahasa_inggris');
+                $data_akademik->matematika        = $request->input('matematika');
+                $data_akademik->ipa               = $request->input('ipa');
                 $data_akademik->save();
 
                 $response['message'] = 'success';
             }
         } else {
-                $data_akademik->label                 = $request->input('label');
-                $data_akademik->user_id               = $request->input('user_id');
-                $data_akademik->keterangan            = $request->input('keterangan');
-                $data_akademik->save();
+            $data_akademik->nomor_un          = $request->input('nomor_un');
+            $data_akademik->nama_siswa        = $request->input('nama_siswa');
+            $data_akademik->user_id           = $request->input('user_id');
+            $data_akademik->bahasa_indonesia  = $request->input('bahasa_indonesia');
+            $data_akademik->bahasa_inggris    = $request->input('bahasa_inggris');
+            $data_akademik->matematika        = $request->input('matematika');
+            $data_akademik->ipa               = $request->input('ipa');
+            $data_akademik->save();
 
             $response['message'] = 'success';
         }

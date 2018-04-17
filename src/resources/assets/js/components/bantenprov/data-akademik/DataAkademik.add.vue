@@ -17,9 +17,9 @@
 
         <validate tag="div">
           <div class="form-group">
-            <label for="model-label">Label</label>
-            <input type="text" class="form-control" id="model-label" v-model="model.label" name="label" placeholder="Label" required autofocus>
-            <field-messages name="label" show="$invalid && $submitted" class="text-danger">
+            <label for="nomor_un">Nomor UN</label>
+            <input type="text" class="form-control" id="nomor_un" v-model="model.nomor_un" name="nomor_un" placeholder="Nomor UN" required autofocus>
+            <field-messages name="nomor_un" show="$invalid && $submitted" class="text-danger">
               <small class="form-text text-success">Looks good!</small>
               <small class="form-text text-danger" slot="required">This field is a required field</small>
             </field-messages>
@@ -28,9 +28,53 @@
 
         <validate tag="div">
           <div class="form-group">
-            <label for="keterangan">Keterangan</label>
-            <input type="text" class="form-control" id="model-description" v-model="model.keterangan" name="keterangan" placeholder="keterangan" required>
-            <field-messages name="keterangan" show="$invalid && $submitted" class="text-danger">
+            <label for="nama_siswa">Nama Siswa</label>
+            <input type="text" class="form-control" id="nama_siswa" v-model="model.nama_siswa" name="nama_siswa" placeholder="Nama Siswa" required>
+            <field-messages name="nama_siswa" show="$invalid && $submitted" class="text-danger">
+              <small class="form-text text-success">Looks good!</small>
+              <small class="form-text text-danger" slot="required">This field is a required field</small>
+            </field-messages>
+          </div>
+        </validate>
+
+        <validate tag="div">
+          <div class="form-group">
+            <label for="bahasa_indonesia">Nilai Bahasa Indonesia</label>
+            <input type="number" class="form-control" id="bahasa_indonesia" v-model="model.bahasa_indonesia" name="bahasa_indonesia" placeholder="Nilai Bahasa Indonesia" required>
+            <field-messages name="bahasa_indonesia" show="$invalid && $submitted" class="text-danger">
+              <small class="form-text text-success">Looks good!</small>
+              <small class="form-text text-danger" slot="required">This field is a required field</small>
+            </field-messages>
+          </div>
+        </validate>
+
+        <validate tag="div">
+          <div class="form-group">
+            <label for="bahasa_inggris">Nilai Bahasa Inggris</label>
+            <input type="number" class="form-control" id="bahasa_inggris" v-model="model.bahasa_inggris" name="bahasa_inggris" placeholder="Nilai Bahasa Inggris" required>
+            <field-messages name="bahasa_inggris" show="$invalid && $submitted" class="text-danger">
+              <small class="form-text text-success">Looks good!</small>
+              <small class="form-text text-danger" slot="required">This field is a required field</small>
+            </field-messages>
+          </div>
+        </validate>
+
+        <validate tag="div">
+          <div class="form-group">
+            <label for="matematika">Nilai Matematika</label>
+            <input type="number" class="form-control" id="matematika" v-model="model.matematika" name="matematika" placeholder="Nilai Matematika" required>
+            <field-messages name="matematika" show="$invalid && $submitted" class="text-danger">
+              <small class="form-text text-success">Looks good!</small>
+              <small class="form-text text-danger" slot="required">This field is a required field</small>
+            </field-messages>
+          </div>
+        </validate>
+
+        <validate tag="div">
+          <div class="form-group">
+            <label for="ipa">Nilai IPA</label>
+            <input type="number" class="form-control" id="ipa" v-model="model.ipa" name="ipa" placeholder="Nilai IPA" required>
+            <field-messages name="ipa" show="$invalid && $submitted" class="text-danger">
               <small class="form-text text-success">Looks good!</small>
               <small class="form-text text-danger" slot="required">This field is a required field</small>
             </field-messages>
@@ -68,9 +112,13 @@ export default {
       state: {},
       title: 'Add Data Akademik',
       model: {
-        label       : '',
-        keterangan  : '',
-        user        : '',
+        nomor_un    : '',
+        nama_siswa  : '',
+        bahasa_indonesia : '',
+        bahasa_inggris : '',
+        matematika : '',
+        ipa : '',
+        user : '',
       },
       user: []
     }
@@ -105,9 +153,13 @@ export default {
         return;
       } else {
         axios.post('api/data-akademik', {
-            label       : this.model.label,
-            keterangan  : this.model.keterangan,
-            user_id     : this.model.user.id
+            user_id          : this.model.user.id,
+            nomor_un         : this.model.nomor_un,
+            nama_siswa       : this.model.nama_siswa,
+            bahasa_indonesia : this.model.bahasa_indonesia,
+            bahasa_inggris   : this.model.bahasa_inggris,
+            matematika       : this.model.matematika,
+            ipa              : this.model.ipa,
           })
           .then(response => {
             if (response.data.status == true) {
@@ -130,8 +182,13 @@ export default {
       axios.get('api/data-akademik/create')
         .then(response => {
           if (response.data.status == true) {
-            this.model.label        = response.data.label;
-            this.model.keterangan   = response.data.keterangan;
+            this.model.user             = response.data.user.id;
+            this.model.nomor_un         = response.data.nomor_un;
+            this.model.nama_siswa       = response.data.nama_siswa;
+            this.model.bahasa_indonesia = response.data.bahasa_indonesia;
+            this.model.bahasa_inggris   = response.data.bahasa_inggris;
+            this.model.matematika       = response.data.matematika;
+            this.model.ipa              = response.data.ipa;
           } else {
             alert('Failed');
           }

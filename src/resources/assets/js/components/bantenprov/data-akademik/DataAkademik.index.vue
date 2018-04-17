@@ -92,23 +92,18 @@ export default {
           dataClass: 'right aligned'
         },
         {
-          name: 'label',
-          title: 'Label',
-          sortField: 'label',
+          name: 'nomor_un',
+          title: 'Nomor UN',
+          sortField: 'nomor_un',
           titleClass: 'center aligned'
         },
         {
-          name: 'keterangan',
-          title: 'Keterangan',
-          sortField: 'keterangan',
+          name: 'nama_siswa',
+          title: 'Nama Siswa',
+          sortField: 'nama_siswa',
           titleClass: 'center aligned'
         },
-        {
-          name: 'user.name',
-          title: 'Username',
-          sortField: 'user_id',
-          titleClass: 'center aligned'
-        },
+
         {
           name: '__slot:actions',
           title: 'Actions',
@@ -117,7 +112,7 @@ export default {
         },
       ],
       sortOrder: [{
-        field: 'label',
+        field: 'nomor_un',
         direction: 'asc'
       }],
       moreParams: {},
