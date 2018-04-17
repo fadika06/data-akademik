@@ -42,7 +42,6 @@ class BantenprovDataAkademikSeeder extends Seeder
         /* silahkan di rubah sesuai kebutuhan */
         foreach($this->readCSV() as $data){
 
-
         	$this->model->create([
             	'user_id' => $data['user_id'],
                 'nomor_un' => $data['nomor_un'],
@@ -54,25 +53,25 @@ class BantenprovDataAkademikSeeder extends Seeder
 
             ]);
 
-            if($this->textInfo){
-                echo "============[DATA]============\n";
-                $this->orangeText('nama_siswa : ').$this->greenText($data['nama_siswa']);
-                echo"\n";
-                $this->orangeText('nomor_un : ').$this->greenText($data['nomor_un']);
-                echo"\n";
-                $this->orangeText('nama_siswa : ').$this->greenText($data['nama_siswa']);
-                echo"\n";
-                $this->orangeText('bahasa_indonesia : ').$this->greenText($data['bahasa_indonesia']);
-                echo"\n";
-                $this->orangeText('bahasa_inggris : ').$this->greenText($data['bahasa_inggris']);
-                echo"\n";
-                $this->orangeText('matematika : ').$this->greenText($data['matematika']);
-                echo"\n";
-                $this->orangeText('ipa : ').$this->greenText($data['ipa']);
-                echo"\n";
+                if($this->textInfo){
+                    echo "============[DATA]============\n";
+                    $this->orangeText('nama_siswa : ').$this->greenText($data['nama_siswa']);
+                    echo"\n";
+                    $this->orangeText('nomor_un : ').$this->greenText($data['nomor_un']);
+                    echo"\n";
+                    $this->orangeText('nama_siswa : ').$this->greenText($data['nama_siswa']);
+                    echo"\n";
+                    $this->orangeText('bahasa_indonesia : ').$this->greenText($data['bahasa_indonesia']);
+                    echo"\n";
+                    $this->orangeText('bahasa_inggris : ').$this->greenText($data['bahasa_inggris']);
+                    echo"\n";
+                    $this->orangeText('matematika : ').$this->greenText($data['matematika']);
+                    echo"\n";
+                    $this->orangeText('ipa : ').$this->greenText($data['ipa']);
+                    echo"\n";
 
-                echo "============[DATA]============\n\n";
-            }
+                    echo "============[DATA]============\n\n";
+                }
 
         }
 
