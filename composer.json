@@ -22,7 +22,7 @@
             "src/helpers/helpers.php"
         ],
         "psr-4": {
-            "Bantenprov\\DataAkadmik\\": "src"
+            "Bantenprov\\DataAkademik\\": "src"
         }
     },
     "minimum-stability": "dev"
