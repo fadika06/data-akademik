@@ -42,28 +42,41 @@ class BantenprovDataAkademikSeeder extends Seeder
         /* silahkan di rubah sesuai kebutuhan */
         foreach($this->readCSV() as $data){
 
-            
+
         	$this->model->create([
-            	'label' => $data['label'],
-				'keterangan' => $data['keterangan'],
-				'user_id' => $data['user_id'],
+            	'user_id' => $data['user_id'],
+                'nomor_un' => $data['nomor_un'],
+                'nama_siswa' => $data['nama_siswa'],
+                'bahasa_indonesia' => $data['bahasa_indonesia'],
+                'bahasa_inggris' => $data['bahasa_inggris'],
+                'matematika' => $data['matematika'],
+                'ipa' => $data['ipa'],
 
-        	]);
-        
+            ]);
+
+            if($this->textInfo){
+                echo "============[DATA]============\n";
+                $this->orangeText('nama_siswa : ').$this->greenText($data['nama_siswa']);
+                echo"\n";
+                $this->orangeText('nomor_un : ').$this->greenText($data['nomor_un']);
+                echo"\n";
+                $this->orangeText('nama_siswa : ').$this->greenText($data['nama_siswa']);
+                echo"\n";
+                $this->orangeText('bahasa_indonesia : ').$this->greenText($data['bahasa_indonesia']);
+                echo"\n";
+                $this->orangeText('bahasa_inggris : ').$this->greenText($data['bahasa_inggris']);
+                echo"\n";
+                $this->orangeText('matematika : ').$this->greenText($data['matematika']);
+                echo"\n";
+                $this->orangeText('ipa : ').$this->greenText($data['ipa']);
+                echo"\n";
+
+                echo "============[DATA]============\n\n";
+            }
 
         }
 
-        if($this->textInfo){                
-            echo "============[DATA]============\n";
-            $this->orangeText('label : ').$this->greenText($data['label']);
-			echo"\n";
-			$this->orangeText('keterangan : ').$this->greenText($data['keterangan']);
-			echo"\n";
-			$this->orangeText('user_id : ').$this->greenText($data['user_id']);
-			echo"\n";
-        
-            echo "============[DATA]============\n\n";
-        }
+
 
         $this->greenText('[ SEEDER DONE ]');
         echo"\n\n";
@@ -85,7 +98,15 @@ class BantenprovDataAkademikSeeder extends Seeder
         $all_data = array();
         $row = 1;
         while(($data = fgetcsv($file, 1000, ",")) !== FALSE){
-            $all_data[] = ['label' => $data[0],'keterangan' => $data[1],'user_id' => $data[2],];
+            $all_data[] = [
+                'user_id' => $data[0],
+                'nomor_un' => $data[1],
+                'nama_siswa' => $data[2],
+                'bahasa_indonesia' => $data[3],
+                'bahasa_inggris' => $data[4],
+                'matematika' => $data[5],
+                'ipa' => $data[6],
+            ];
         }
         fclose($file);
         return  $all_data;

@@ -16,10 +16,15 @@ class DataAkademik extends Model
         'deleted_at'
     ];
     protected $fillable = [
-        'label',
-        'keterangan',
         'user_id',
+        'nomor_un',
+        'nama_siswa',
+        'bahasa_indonesia',
+        'bahasa_inggris',
+        'matematika',
+        'ipa',
     ];
+
     /**
      * The attributes that should be hidden for arrays.
      *
