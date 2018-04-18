@@ -12,12 +12,6 @@
 
 Data Akademik pada sekolah
 
-- Teknik Elektronika Industri
-- Teknik Instalasi Tenaga Listrik
-- Teknik Pendingin dan Tata Udara
-- Teknik Komputer dan Jaringan
-- Multi Media
-
 ### Install via composer
 
 - Development snapshot
