@@ -39,6 +39,17 @@
 
         <validate tag="div">
           <div class="form-group">
+            <label for="nomor_kk">Nomor KK</label>
+            <input type="text" class="form-control" id="nomor_kk" v-model="model.nomor_kk" name="nomor_kk" placeholder="Nomor KK" required>
+            <field-messages name="nomor_kk" show="$invalid && $submitted" class="text-danger">
+              <small class="form-text text-success">Looks good!</small>
+              <small class="form-text text-danger" slot="required">This field is a required field</small>
+            </field-messages>
+          </div>
+        </validate>
+
+        <validate tag="div">
+          <div class="form-group">
             <label for="bahasa_indonesia">Nilai Bahasa Indonesia</label>
             <input type="number" class="form-control" id="bahasa_indonesia" v-model="model.bahasa_indonesia" name="bahasa_indonesia" placeholder="Nilai Bahasa Indonesia" required>
             <field-messages name="bahasa_indonesia" show="$invalid && $submitted" class="text-danger">
@@ -113,8 +124,9 @@ export default {
         if (response.data.status == true) {
 
           this.model.user             = response.data.data_akademik.user;
-          this.model.old_nomor_un     = response.data.data_akademik.nomor_un
+          this.model.old_nomor_un     = response.data.data_akademik.nomor_un;
           this.model.nomor_un         = response.data.data_akademik.nomor_un;
+          this.model.nomor_kk         = response.data.data_akademik.nomor_kk;
           this.model.nama_siswa       = response.data.data_akademik.nama_siswa;
           this.model.bahasa_indonesia = response.data.data_akademik.bahasa_indonesia;
           this.model.bahasa_inggris   = response.data.data_akademik.bahasa_inggris;
@@ -152,6 +164,7 @@ export default {
       model: {
         old_nomor_un      : '',
         nomor_un          : '',
+        nomor_kk          : '',
         nama_siswa        : '',
         bahasa_indonesia  : '',
         bahasa_inggris    : '',
@@ -172,6 +185,7 @@ export default {
         axios.put('api/data-akademik/' + this.$route.params.id, {
             user_id          : this.model.user.id,
             nomor_un         : this.model.nomor_un,
+            nomor_kk         : this.model.nomor_kk,
             old_nomor_un     : this.model.old_nomor_un,
             nama_siswa       : this.model.nama_siswa,
             bahasa_indonesia : this.model.bahasa_indonesia,
@@ -201,8 +215,9 @@ export default {
         .then(response => {
           if (response.data.status == true) {
             this.model.user             = response.data.data_akademik.user.name;
-            this.model.old_nomor_un     = response.data.data_akademik.nomor_un
+            this.model.old_nomor_un     = response.data.data_akademik.nomor_un;
             this.model.nomor_un         = response.data.data_akademik.nomor_un;
+            this.model.nomor_kk         = response.data.data_akademik.nomor_kk;
             this.model.nama_siswa       = response.data.data_akademik.nama_siswa;
             this.model.bahasa_indonesia = response.data.data_akademik.bahasa_indonesia;
             this.model.bahasa_inggris   = response.data.data_akademik.bahasa_inggris;

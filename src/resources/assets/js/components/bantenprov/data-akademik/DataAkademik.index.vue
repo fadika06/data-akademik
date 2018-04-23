@@ -98,6 +98,12 @@ export default {
           titleClass: 'center aligned'
         },
         {
+          name: 'nomor_kk',
+          title: 'Nomor KK',
+          sortField: 'nomor_kk',
+          titleClass: 'center aligned'
+        },
+        {
           name: 'nama_siswa',
           title: 'Nama Siswa',
           sortField: 'nama_siswa',

@@ -20,6 +20,9 @@
         <dt class="col-4">Nomor UN</dt>
         <dd class="col-8">{{ model.nomor_un }}</dd>
 
+        <dt class="col-4">Nomor KK</dt>
+        <dd class="col-8">{{ model.nomor_kk }}</dd>
+
         <dt class="col-4">Nama Siswa</dt>
         <dd class="col-8">{{ model.nama_siswa }}</dd>
 
@@ -60,6 +63,7 @@ export default {
         if (response.data.status == true) {
           this.model.user             = response.data.data_akademik.user;
           this.model.nomor_un         = response.data.data_akademik.nomor_un;
+          this.model.nomor_kk         = response.data.data_akademik.nomor_kk;
           this.model.nama_siswa       = response.data.data_akademik.nama_siswa;
           this.model.bahasa_indonesia = response.data.data_akademik.bahasa_indonesia;
           this.model.bahasa_inggris   = response.data.data_akademik.bahasa_inggris;
@@ -84,6 +88,7 @@ export default {
       state: {},
       model: {
         nomor_un          : '',
+        nomor_kk          : '',
         nama_siswa        : '',
         bahasa_indonesia  : '',
         bahasa_inggris    : '',

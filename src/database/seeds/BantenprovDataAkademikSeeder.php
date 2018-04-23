@@ -43,13 +43,14 @@ class BantenprovDataAkademikSeeder extends Seeder
         foreach($this->readCSV() as $data){
 
         	$this->model->create([
-            	'user_id' => $data['user_id'],
-                'nomor_un' => $data['nomor_un'],
-                'nama_siswa' => $data['nama_siswa'],
-                'bahasa_indonesia' => $data['bahasa_indonesia'],
-                'bahasa_inggris' => $data['bahasa_inggris'],
-                'matematika' => $data['matematika'],
-                'ipa' => $data['ipa'],
+            	'user_id'           => $data['user_id'],
+                'nomor_un'          => $data['nomor_un'],
+                'nomor_kk'          => $data['nomor_kk'],
+                'nama_siswa'        => $data['nama_siswa'],
+                'bahasa_indonesia'  => $data['bahasa_indonesia'],
+                'bahasa_inggris'    => $data['bahasa_inggris'],
+                'matematika'        => $data['matematika'],
+                'ipa'               => $data['ipa'],
 
             ]);
 
@@ -58,6 +59,8 @@ class BantenprovDataAkademikSeeder extends Seeder
                     $this->orangeText('nama_siswa : ').$this->greenText($data['nama_siswa']);
                     echo"\n";
                     $this->orangeText('nomor_un : ').$this->greenText($data['nomor_un']);
+                    echo"\n";
+                    $this->orangeText('nomor_kk : ').$this->greenText($data['nomor_kk']);
                     echo"\n";
                     $this->orangeText('nama_siswa : ').$this->greenText($data['nama_siswa']);
                     echo"\n";
@@ -98,13 +101,14 @@ class BantenprovDataAkademikSeeder extends Seeder
         $row = 1;
         while(($data = fgetcsv($file, 1000, ",")) !== FALSE){
             $all_data[] = [
-                'user_id' => $data[0],
-                'nomor_un' => $data[1],
-                'nama_siswa' => $data[2],
-                'bahasa_indonesia' => $data[3],
-                'bahasa_inggris' => $data[4],
-                'matematika' => $data[5],
-                'ipa' => $data[6],
+                'user_id'           => $data[0],
+                'nomor_un'          => $data[1],
+                'nomor_kk'          => $data[2],
+                'nama_siswa'        => $data[3],
+                'bahasa_indonesia'  => $data[4],
+                'bahasa_inggris'    => $data[5],
+                'matematika'        => $data[6],
+                'ipa'               => $data[7],
             ];
         }
         fclose($file);

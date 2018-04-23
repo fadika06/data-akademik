@@ -30,7 +30,7 @@ class DataAkademikController extends Controller
     protected $user;
     public function __construct(DataAkademik $data_akademik, User $user)
     {
-        $this->data_akademik = $data_akademik;
+        $this->data_akademik    = $data_akademik;
         $this->user             = $user;
     }
 
@@ -95,8 +95,8 @@ class DataAkademikController extends Controller
 
         array_set($current_user, 'label', $current_user->name);
 
-        $response['current_user'] = $current_user;
-        $response['status'] = true;
+        $response['current_user']   = $current_user;
+        $response['status']         = true;
 
         return response()->json($response);
     }
@@ -114,6 +114,7 @@ class DataAkademikController extends Controller
         $validator = Validator::make($request->all(), [
             'nomor_un'          => 'required|unique:data_akademiks,nomor_un',
             'nama_siswa'        => 'required',
+            'nomor_kk'          => 'required',
             'bahasa_indonesia'  => 'required|numeric',
             'bahasa_inggris'    => 'required|numeric',
             'matematika'        => 'required|numeric',
@@ -130,6 +131,7 @@ class DataAkademikController extends Controller
             } else {
                 $data_akademik->nomor_un          = $request->input('nomor_un');
                 $data_akademik->nama_siswa        = $request->input('nama_siswa');
+                $data_akademik->nomor_kk          = $request->input('nomor_kk');
                 $data_akademik->user_id           = $request->input('user_id');
                 $data_akademik->bahasa_indonesia  = $request->input('bahasa_indonesia');
                 $data_akademik->bahasa_inggris    = $request->input('bahasa_inggris');
@@ -142,6 +144,7 @@ class DataAkademikController extends Controller
         } else {
             $data_akademik->nomor_un          = $request->input('nomor_un');
             $data_akademik->nama_siswa        = $request->input('nama_siswa');
+            $data_akademik->nomor_kk          = $request->input('nomor_kk');
             $data_akademik->user_id           = $request->input('user_id');
             $data_akademik->bahasa_indonesia  = $request->input('bahasa_indonesia');
             $data_akademik->bahasa_inggris    = $request->input('bahasa_inggris');
@@ -169,7 +172,7 @@ class DataAkademikController extends Controller
 
         array_set($data_akademik, 'user', $data_akademik->user->name);
 
-        $response['data_akademik']   = $data_akademik;
+        $response['data_akademik']      = $data_akademik;
         $response['status']             = true;
 
         return response()->json($response);
@@ -187,7 +190,7 @@ class DataAkademikController extends Controller
 
         array_set($data_akademik->user, 'label', $data_akademik->user->name);
 
-        $response['data_akademik']   = $data_akademik;
+        $response['data_akademik']      = $data_akademik;
         $response['user']               = $data_akademik->user;
         $response['status']             = true;
 
@@ -210,6 +213,7 @@ class DataAkademikController extends Controller
             $validator = Validator::make($request->all(), [
                 'nomor_un'          => 'required',
                 'nama_siswa'        => 'required',
+                'nomor_kk'          => 'required',
                 'bahasa_indonesia'  => 'required|numeric',
                 'bahasa_inggris'    => 'required|numeric',
                 'matematika'        => 'required|numeric',
@@ -221,6 +225,7 @@ class DataAkademikController extends Controller
             $validator = Validator::make($request->all(), [
                 'nomor_un'          => 'required|unique:data_akademiks,nomor_un',
                 'nama_siswa'        => 'required',
+                'nomor_kk'          => 'required',
                 'bahasa_indonesia'  => 'required|numeric',
                 'bahasa_inggris'    => 'required|numeric',
                 'matematika'        => 'required|numeric',
@@ -236,6 +241,7 @@ class DataAkademikController extends Controller
                 $response['message'] = 'Failed Nomor UN : ' . $request->nomor_un . ' already exists';
             } else {
                 $data_akademik->nomor_un          = $request->input('nomor_un');
+                $data_akademik->nomor_kk          = $request->input('nomor_kk');
                 $data_akademik->nama_siswa        = $request->input('nama_siswa');
                 $data_akademik->user_id           = $request->input('user_id');
                 $data_akademik->bahasa_indonesia  = $request->input('bahasa_indonesia');
@@ -248,6 +254,7 @@ class DataAkademikController extends Controller
             }
         } else {
             $data_akademik->nomor_un          = $request->input('nomor_un');
+            $data_akademik->nomor_kk          = $request->input('nomor_kk');
             $data_akademik->nama_siswa        = $request->input('nama_siswa');
             $data_akademik->user_id           = $request->input('user_id');
             $data_akademik->bahasa_indonesia  = $request->input('bahasa_indonesia');
