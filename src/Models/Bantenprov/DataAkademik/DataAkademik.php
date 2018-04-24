@@ -18,6 +18,7 @@ class DataAkademik extends Model
     protected $fillable = [
         'user_id',
         'nomor_un',
+        'nomor_kk',
         'nama_siswa',
         'bahasa_indonesia',
         'bahasa_inggris',
