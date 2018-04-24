@@ -140,7 +140,7 @@ export default {
     let app = this
     axios.get('api/data-akademik/create')
       .then(response => {
-        if (response.data.status == true) {
+        if (response.data.status == true && response.data.error == false) {
           this.model.user = response.data.current_user;
 
           if(response.data.user_special == true){
@@ -150,13 +150,24 @@ export default {
           }else{
             this.user.push(response.data.user);
           }
-        } else {
-          alert('Failed');
+        } else{
+            swal(
+              'Failed',
+              'Oops... '+response.data.message,
+              'error'
+
+          );
+        app.back();
         }
       })
       .catch(function(response) {
-        alert('Break');
-        window.location = '#/admin/data-akademik';
+        swal(
+          'Not Found',
+          'Oops... Your page is not found.',
+          'error'
+        );
+
+        app.back();
       });
   },
   methods: {
@@ -169,27 +180,48 @@ export default {
         axios.post('api/data-akademik', {
             user_id          : this.model.user.id,
             nomor_un         : this.model.nomor_un,
-            nomomr_kk        : this.model.nomor_kk,
+            nomor_kk         : this.model.nomor_kk,
             nama_siswa       : this.model.nama_siswa,
             bahasa_indonesia : this.model.bahasa_indonesia,
             bahasa_inggris   : this.model.bahasa_inggris,
             matematika       : this.model.matematika,
             ipa              : this.model.ipa,
           })
-          .then(response => {
+        .then(response => {
             if (response.data.status == true) {
-              if(response.data.message == 'success'){
-                alert(response.data.message);
+              if(response.data.error == false){
+                swal(
+                  'Created',
+                  'Yeah!!! Your data has been created.',
+                  'success'
+                );
+
                 app.back();
               }else{
-                alert(response.data.message);
+                swal(
+                  'Failed',
+                  'Oops... '+response.data.message,
+                  'error'
+                );
               }
             } else {
-              alert(response.data.message);
+              swal(
+                'Failed',
+                'Oops... '+response.data.message,
+                'error'
+              );
+
+              app.back();
             }
           })
           .catch(function(response) {
-            alert('Break ' + response.data.message);
+            swal(
+              'Not Found',
+              'Oops... Your page is not found.',
+              'error'
+            );
+
+            app.back();
           });
       }
     },
