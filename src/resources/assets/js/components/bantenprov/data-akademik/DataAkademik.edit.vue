@@ -117,6 +117,7 @@
 </template>
 
 <script>
+import swal from 'sweetalert2';
 export default {
   mounted() {
     axios.get('api/data-akademik/' + this.$route.params.id + '/edit')
@@ -145,18 +146,33 @@ export default {
 
       axios.get('api/data-akademik/create')
       .then(response => {
+        if (response.data.status == true && response.data.error == false) {
+          this.model.user     = response.data.current_user;
+
           if(response.data.user_special == true){
-            response.data.user.forEach(user_element => {
-              this.user.push(user_element);
-            });
+            this.user = response.data.user;
           }else{
             this.user.push(response.data.user);
           }
+        } else {
+          swal(
+            'Failed',
+            'Oops... '+response.data.message,
+            'error'
+          );
+
+          app.back();
+        }
       })
       .catch(function(response) {
-        alert('Break');
-        window.location.href = '#/admin/data-akademik';
-      })
+        swal(
+          'Not Found',
+          'Oops... Your page is not found.',
+          'error'
+        );
+
+        app.back();
+      });
   },
   data() {
     return {
@@ -195,18 +211,39 @@ export default {
           })
           .then(response => {
             if (response.data.status == true) {
-              if(response.data.message == 'success'){
-                alert(response.data.message);
+              if(response.data.error == false){
+                swal(
+                  'Updated',
+                  'Yeah!!! Your data has been updated.',
+                  'success'
+                );
+
                 app.back();
               }else{
-                alert(response.data.message);
+                swal(
+                  'Failed',
+                  'Oops... '+response.data.message,
+                  'error'
+                );
               }
             } else {
-              alert(response.data.message);
+              swal(
+                'Failed',
+                'Oops... '+response.data.message,
+                'error'
+              );
+
+              app.back();
             }
           })
           .catch(function(response) {
-            alert('Break ' + response.data.message);
+            swal(
+              'Not Found',
+              'Oops... Your page is not found.',
+              'error'
+            );
+
+            app.back();
           });
       }
     },
