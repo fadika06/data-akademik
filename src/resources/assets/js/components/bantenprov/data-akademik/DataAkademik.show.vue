@@ -5,9 +5,9 @@
 
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
-          <button class="btn btn-success btn-sm" role="button" @click="show">
+          <!-- <button class="btn btn-success btn-sm" role="button" @click="show">
             <span class="fa fa-pencil"></span> EDIT
-          </button>
+          </button> -->
           <button class="btn btn-primary btn-sm" role="button" @click="back">
             <i class="fa fa-arrow-left" aria-hidden="true"></i>
           </button>
@@ -23,6 +23,9 @@
         <dt class="col-4">Nomor KK</dt>
         <dd class="col-8">{{ model.nomor_kk }}</dd>
 
+        <dt class="col-4">NISN</dt>
+        <dd class="col-8">{{ model.nisn }}</dd>
+
         <dt class="col-4">Nama Siswa</dt>
         <dd class="col-8">{{ model.nama_siswa }}</dd>
 
@@ -37,6 +40,27 @@
 
         <dt class="col-4">Nilai IPA</dt>
         <dd class="col-8">{{ model.ipa }}</dd>
+
+        <dt class="col-4">Tempat Lahir</dt>
+        <dd class="col-8">{{ model.tempat_lahir }}</dd>
+
+        <dt class="col-4">Tanggal Lahir</dt>
+        <dd class="col-8">{{ model.tanggal_lahir }}</dd>
+
+        <dt class="col-4">Jenis Kelamin</dt>
+        <dd class="col-8">{{ model.jenis_kelamin }}</dd>
+
+        <dt class="col-4">Nama Orang Tua</dt>
+        <dd class="col-8">{{ model.nama_ortu }}</dd>
+
+        <dt class="col-4">Alamat</dt>
+        <dd class="col-8">{{ model.alamat }}</dd>
+
+        <dt class="col-4">NPSN Asal Sekolah</dt>
+        <dd class="col-8">{{ model.npsn_asal_sekolah }}</dd>
+
+        <dt class="col-4">Asal Sekolah</dt>
+        <dd class="col-8">{{ model.asal_sekolah }}</dd>
 
       </dl>
 
@@ -64,11 +88,19 @@ export default {
           this.model.user             = response.data.data_akademik.user;
           this.model.nomor_un         = response.data.data_akademik.nomor_un;
           this.model.nomor_kk         = response.data.data_akademik.nomor_kk;
+          this.model.nisn             = response.data.data_akademik.nisn;
           this.model.nama_siswa       = response.data.data_akademik.nama_siswa;
           this.model.bahasa_indonesia = response.data.data_akademik.bahasa_indonesia;
           this.model.bahasa_inggris   = response.data.data_akademik.bahasa_inggris;
           this.model.matematika       = response.data.data_akademik.matematika;
           this.model.ipa              = response.data.data_akademik.ipa;
+          this.model.tempat_lahir     = response.data.data_akademik.tempat_lahir;
+          this.model.tanggal_lahir    = response.data.data_akademik.tanggal_lahir;
+          this.model.jenis_kelamin    = response.data.data_akademik.jenis_kelamin;
+          this.model.nama_ortu        = response.data.data_akademik.nama_ortu;
+          this.model.alamat           = response.data.data_akademik.alamat;
+          this.model.npsn_asal_sekolah = response.data.data_akademik.npsn_asal_sekolah;
+          this.model.asal_sekolah         = response.data.data_akademik.asal_sekolah;
           this.model.created_at       = response.data.data_akademik.created_at;
           this.model.updated_at       = response.data.data_akademik.updated_at;
 
@@ -89,11 +121,19 @@ export default {
       model: {
         nomor_un          : '',
         nomor_kk          : '',
+        nisn              : '',
         nama_siswa        : '',
         bahasa_indonesia  : '',
         bahasa_inggris    : '',
         matematika        : '',
         ipa               : '',
+        tempat_lahir      : '',
+        tanggal_lahir     : '',
+        jenis_kelamin     : '',
+        nama_ortu         : '',
+        alamat            : '',
+        npsn_asal_sekolah : '',
+        asal_sekolah      : '',
         user              : '',
         created_at        : '',
         updated_at        : '',
