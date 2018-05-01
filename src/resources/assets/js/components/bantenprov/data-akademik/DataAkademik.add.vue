@@ -39,6 +39,17 @@
 
         <validate tag="div">
           <div class="form-group">
+            <label for="nomor_kk">Nomor KK </label>
+            <input type="text" class="form-control" id="nomor_kk" v-model="model.nomor_kk" name="nomor_kk" placeholder="Nomor KK" required>
+            <field-messages name="nomor_kk" show="$invalid && $submitted" class="text-danger">
+              <small class="form-text text-success">Looks good!</small>
+              <small class="form-text text-danger" slot="required">This field is a required field</small>
+            </field-messages>
+          </div>
+        </validate>
+
+        <validate tag="div">
+          <div class="form-group">
             <label for="bahasa_indonesia">Nilai Bahasa Indonesia</label>
             <input type="number" class="form-control" id="bahasa_indonesia" v-model="model.bahasa_indonesia" name="bahasa_indonesia" placeholder="Nilai Bahasa Indonesia" required>
             <field-messages name="bahasa_indonesia" show="$invalid && $submitted" class="text-danger">
@@ -106,27 +117,30 @@
 </template>
 
 <script>
+import swal from 'sweetalert2';
 export default {
   data() {
     return {
       state: {},
       title: 'Add Data Akademik',
       model: {
-        nomor_un    : '',
-        nama_siswa  : '',
-        bahasa_indonesia : '',
-        bahasa_inggris : '',
-        matematika : '',
-        ipa : '',
-        user : '',
+        nomor_un          : '',
+        nomor_kk          : '',
+        nama_siswa        : '',
+        bahasa_indonesia  : '',
+        bahasa_inggris    : '',
+        matematika        : '',
+        ipa               : '',
+        user              : '',
       },
       user: []
     }
   },
   mounted() {
+    let app = this
     axios.get('api/data-akademik/create')
       .then(response => {
-        if (response.data.status == true) {
+        if (response.data.status == true && response.data.error == false) {
           this.model.user = response.data.current_user;
 
           if(response.data.user_special == true){
@@ -136,13 +150,24 @@ export default {
           }else{
             this.user.push(response.data.user);
           }
-        } else {
-          alert('Failed');
+        } else{
+            swal(
+              'Failed',
+              'Oops... '+response.data.message,
+              'error'
+
+          );
+        app.back();
         }
       })
       .catch(function(response) {
-        alert('Break');
-        window.location = '#/admin/data-akademik';
+        swal(
+          'Not Found',
+          'Oops... Your page is not found.',
+          'error'
+        );
+
+        app.back();
       });
   },
   methods: {
@@ -155,26 +180,48 @@ export default {
         axios.post('api/data-akademik', {
             user_id          : this.model.user.id,
             nomor_un         : this.model.nomor_un,
+            nomor_kk         : this.model.nomor_kk,
             nama_siswa       : this.model.nama_siswa,
             bahasa_indonesia : this.model.bahasa_indonesia,
             bahasa_inggris   : this.model.bahasa_inggris,
             matematika       : this.model.matematika,
             ipa              : this.model.ipa,
           })
-          .then(response => {
+        .then(response => {
             if (response.data.status == true) {
-              if(response.data.message == 'success'){
-                alert(response.data.message);
+              if(response.data.error == false){
+                swal(
+                  'Created',
+                  'Yeah!!! Your data has been created.',
+                  'success'
+                );
+
                 app.back();
               }else{
-                alert(response.data.message);
+                swal(
+                  'Failed',
+                  'Oops... '+response.data.message,
+                  'error'
+                );
               }
             } else {
-              alert(response.data.message);
+              swal(
+                'Failed',
+                'Oops... '+response.data.message,
+                'error'
+              );
+
+              app.back();
             }
           })
           .catch(function(response) {
-            alert('Break ' + response.data.message);
+            swal(
+              'Not Found',
+              'Oops... Your page is not found.',
+              'error'
+            );
+
+            app.back();
           });
       }
     },
@@ -184,6 +231,7 @@ export default {
           if (response.data.status == true) {
             this.model.user             = response.data.user.id;
             this.model.nomor_un         = response.data.nomor_un;
+            this.model.nomor_kk         = response.data.nomor_kk;
             this.model.nama_siswa       = response.data.nama_siswa;
             this.model.bahasa_indonesia = response.data.bahasa_indonesia;
             this.model.bahasa_inggris   = response.data.bahasa_inggris;

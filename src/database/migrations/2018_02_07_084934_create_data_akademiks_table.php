@@ -16,6 +16,7 @@ class CreateDataAkademiksTable extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->string('nomor_un');
+            $table->string('nomor_kk')->nullable();
             $table->string('nama_siswa');
             $table->decimal('bahasa_indonesia')->nullable();
             $table->decimal('bahasa_inggris')->nullable();
