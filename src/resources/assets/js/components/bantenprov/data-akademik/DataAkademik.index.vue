@@ -5,9 +5,9 @@
 
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
-          <button class="btn btn-primary btn-sm" role="button" @click="createRow">
+          <!-- <button class="btn btn-primary btn-sm" role="button" @click="createRow">
           	<i class="fa fa-plus" aria-hidden="true"></i>
-          </button>
+          </button> -->
         </li>
       </ul>
     </div>
@@ -41,12 +41,12 @@
               <button class="btn btn-info btn-sm" role="button" @click="viewRow(props.rowData)">
                 <span class="fa fa-eye"></span>
               </button>
-              <button class="btn btn-warning btn-sm" role="button" @click="editRow(props.rowData)">
+             <!--  <button class="btn btn-warning btn-sm" role="button" @click="editRow(props.rowData)">
                 <span class="fa fa-pencil"></span>
               </button>
               <button class="btn btn-danger btn-sm" role="button" @click="deleteRow(props.rowData)">
                 <span class="fa fa-trash"></span>
-              </button>
+              </button> -->
             </div>
           </template>
         </vuetable>
@@ -95,6 +95,12 @@ export default {
           name: 'nomor_un',
           title: 'Nomor UN',
           sortField: 'nomor_un',
+          titleClass: 'center aligned'
+        },
+        {
+          name: 'nomor_kk',
+          title: 'Nomor KK',
+          sortField: 'nomor_kk',
           titleClass: 'center aligned'
         },
         {
