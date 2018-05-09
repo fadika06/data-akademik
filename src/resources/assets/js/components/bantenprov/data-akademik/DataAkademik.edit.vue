@@ -37,7 +37,7 @@
           </div>
         </validate>
 
-        <validate tag="div">
+        <!-- <validate tag="div">
           <div class="form-group">
             <label for="nomor_kk">Nomor KK</label>
             <input type="text" class="form-control" id="nomor_kk" v-model="model.nomor_kk" name="nomor_kk" placeholder="Nomor KK" required>
@@ -46,7 +46,32 @@
               <small class="form-text text-danger" slot="required">This field is a required field</small>
             </field-messages>
           </div>
+        </validate> -->
+
+        <validate tag="div">
+          <div class="form-group">
+            <label for="nomor_kk">Nomor KK </label>
+            <input type="text" class="form-control" id="nomor_kk" v-model="model.nomor_kk" name="nomor_kk" placeholder="Nomor KK" >
+              <!-- <field-messages name="nomor_kk" show="$invalid && $submitted" class="text-danger">
+              <small class="form-text text-success">Looks good!</small>
+              <small class="form-text text-danger" slot="required">This field is a required field</small>
+                          </field-messages>  -->
+          </div>
         </validate>
+
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <validate tag="div">
+              <label for="tanggal_lahir">Tanggal Lahir</label>
+              <input type="text" class="form-control" name="tanggal_lahir" v-model="model.tanggal_lahir" placeholder="Tanggal Lahir" required>
+
+              <field-messages name="tanggal_lahir" show="$invalid && $submitted" class="text-danger">
+                <small class="form-text text-success">Looks good!</small>
+                <small class="form-text text-danger" slot="required">this field required field</small>
+              </field-messages>
+            </validate>
+          </div>
+        </div>
 
         <validate tag="div">
           <div class="form-group">
@@ -128,6 +153,7 @@ export default {
           this.model.old_nomor_un     = response.data.data_akademik.nomor_un;
           this.model.nomor_un         = response.data.data_akademik.nomor_un;
           this.model.nomor_kk         = response.data.data_akademik.nomor_kk;
+          this.model.tanggal_lahir    = response.data.data_akademik.tanggal_lahir;
           this.model.nama_siswa       = response.data.data_akademik.nama_siswa;
           this.model.bahasa_indonesia = response.data.data_akademik.bahasa_indonesia;
           this.model.bahasa_inggris   = response.data.data_akademik.bahasa_inggris;
@@ -140,7 +166,11 @@ export default {
         }
       })
       .catch(function(response) {
-        alert('Break');
+        swal(
+          'Not Found',
+          'Oops... Your page is not found.',
+          'error'
+        );
         window.location.href = '#/admin/data-akademik';
       });
 
@@ -181,6 +211,7 @@ export default {
         old_nomor_un      : '',
         nomor_un          : '',
         nomor_kk          : '',
+        tanggal_lahir     : '',
         nama_siswa        : '',
         bahasa_indonesia  : '',
         bahasa_inggris    : '',
@@ -202,6 +233,7 @@ export default {
             user_id          : this.model.user.id,
             nomor_un         : this.model.nomor_un,
             nomor_kk         : this.model.nomor_kk,
+            tanggal_lahir    : this.model.tanggal_lahir,
             old_nomor_un     : this.model.old_nomor_un,
             nama_siswa       : this.model.nama_siswa,
             bahasa_indonesia : this.model.bahasa_indonesia,
@@ -210,6 +242,8 @@ export default {
             ipa              : this.model.ipa,
           })
           .then(response => {
+            let msg = response.data.message;
+
             if (response.data.status == true) {
               if(response.data.error == false){
                 swal(
@@ -222,14 +256,14 @@ export default {
               }else{
                 swal(
                   'Failed',
-                  'Oops... '+response.data.message,
+                  `Oops... ${msg}`,
                   'error'
                 );
               }
             } else {
               swal(
                 'Failed',
-                'Oops... '+response.data.message,
+                'Oops... '+ msg,
                 'error'
               );
 
@@ -254,6 +288,7 @@ export default {
             this.model.user             = response.data.data_akademik.user.name;
             this.model.old_nomor_un     = response.data.data_akademik.nomor_un;
             this.model.nomor_un         = response.data.data_akademik.nomor_un;
+            this.model.tanggal_lahir    = response.data.data_akademik.tanggal_lahir;
             this.model.nomor_kk         = response.data.data_akademik.nomor_kk;
             this.model.nama_siswa       = response.data.data_akademik.nama_siswa;
             this.model.bahasa_indonesia = response.data.data_akademik.bahasa_indonesia;
