@@ -6,6 +6,7 @@ namespace Bantenprov\DataAkademik\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Bantenprov\DataAkademik\Facades\DataAkademikFacade;
+use Bantenprov\Sekolah\Models\Bantenprov\Sekolah\AdminSekolah;
 use App\User;
 
 /* Models */
@@ -13,6 +14,7 @@ use Bantenprov\DataAkademik\Models\Bantenprov\DataAkademik\DataAkademik;
 
 /* Etc */
 use Validator;
+use Auth;
 
 /**
  * The DataAkademikController class.
@@ -59,7 +61,12 @@ class DataAkademikController extends Controller
 
 
         $perPage = $request->has('per_page') ? (int) $request->per_page : null;
-        $response = $query->paginate($perPage);
+
+        if($this->checkRole(['superadministrator','administrator'])){
+            $response = $query->paginate($perPage);
+        }else{
+            $response = [];
+        }
 
         return response()->json($response)
             ->header('Access-Control-Allow-Origin', '*')
@@ -79,7 +86,7 @@ class DataAkademikController extends Controller
         $users_standar = $this->user->find(\Auth::User()->id);
         $current_user = \Auth::User();
 
-        $role_check = \Auth::User()->hasRole(['superadministrator','administrator']);
+        $role_check = \Auth::User()->hasRole(['superadministrator']);
 
         if($role_check){
             $response['user_special'] = true;
@@ -90,15 +97,23 @@ class DataAkademikController extends Controller
         }else{
             $response['user_special'] = false;
             array_set($users_standar, 'label', $users_standar->name);
-            $response['user'] = $users_standar;
+            if($this->checkRole(['superadministrator','administrator'])){
+                $response['user'] = $users_standar;
+            }else{
+                $response['user'] = null;
+            }
         }
 
         array_set($current_user, 'label', $current_user->name);
 
-        $response['current_user']   = $current_user;
-        //$response['status']         = true;
-        $response['error']          = false;
-        $response['message']        = 'Success';
+        if($this->checkRole(['superadministrator','administrator'])){
+            $response['current_user']   = $current_user;
+            $response['status']         = true;
+        }else{
+            $response['current_user']   = null;
+            $response['status']         = null;
+        }
+
         $response['status']         = true;
 
         return response()->json($response);
@@ -112,10 +127,18 @@ class DataAkademikController extends Controller
      */
     public function store(Request $request)
     {
+        if($this->checkRole(['superadministrator','administrator'])){
+            $response['message'] = 'Tidak mempunyai hak ases untuk ini.';
+            $response['status'] = true;
+
+            return response()->json($response);
+        }
+
+
         $data_akademik = $this->data_akademik;
 
         $validator = Validator::make($request->all(), [
-            'nomor_un'      => "required|max:255|unique:{$this->data_akademik->getTable()},nomor_un,NULL,id,deleted_at,NULL",
+            'nomor_un'          => 'required|unique:data_akademiks,nomor_un',
             'nama_siswa'        => 'required',
             'nomor_kk'          => 'required',
             'bahasa_indonesia'  => 'required|numeric',
@@ -125,9 +148,11 @@ class DataAkademikController extends Controller
             'user_id'           => 'required',
         ]);
 
-        if ($validator->fails()) {
-            $error      = true;
-            $message    = $validator->errors()->first();
+        if($validator->fails()){
+            $check = $data_akademik->where('nomor_un',$request->nomor_un)->whereNull('deleted_at')->count();
+
+            if ($check > 0) {
+                $response['message'] = 'Failed Nomor UN : ' . $request->nomor_un . ' already exists';
 
             } else {
                 $data_akademik->nomor_un          = $request->input('nomor_un');
@@ -140,15 +165,25 @@ class DataAkademikController extends Controller
                 $data_akademik->ipa               = $request->input('ipa');
                 $data_akademik->save();
 
-                $error      = false;
-                $message    = 'Success';
+                $response['message'] = 'success';
             }
+        } else {
+            $data_akademik->nomor_un          = $request->input('nomor_un');
+            $data_akademik->nama_siswa        = $request->input('nama_siswa');
+            $data_akademik->nomor_kk          = $request->input('nomor_kk');
+            $data_akademik->user_id           = $request->input('user_id');
+            $data_akademik->bahasa_indonesia  = $request->input('bahasa_indonesia');
+            $data_akademik->bahasa_inggris    = $request->input('bahasa_inggris');
+            $data_akademik->matematika        = $request->input('matematika');
+            $data_akademik->ipa               = $request->input('ipa');
+            $data_akademik->save();
 
-            $response['error']      = $error;
-            $response['message']    = $message;
-            $response['status']     = true;
+            $response['message'] = 'success';
+        }
 
-            return response()->json($response);
+        $response['status'] = true;
+
+        return response()->json($response);
     }
 
     /**
@@ -159,12 +194,21 @@ class DataAkademikController extends Controller
      */
     public function show($id)
     {
+
+
         $data_akademik = $this->data_akademik->findOrFail($id);
 
         array_set($data_akademik, 'user', $data_akademik->user->name);
 
-        $response['data_akademik']      = $data_akademik;
-        $response['status']             = true;
+        if($this->checkRole(['superadministrator','administrator'])){
+            $response['data_akademik']      = $data_akademik;
+            $response['status']             = true;
+        }else{
+            $response['data_akademik']      = [];
+            $response['massege']            = 'Tidak mempunyai hak akses untuk ini.';
+            $response['status']             = true;
+        }
+
 
         return response()->json($response);
     }
@@ -181,12 +225,18 @@ class DataAkademikController extends Controller
 
         array_set($data_akademik->user, 'label', $data_akademik->user->name);
 
-        $response['data_akademik']      = $data_akademik;
-        $response['user']               = $data_akademik->user;
-        //$response['status']             = true;
-        $response['error']              = false;
-        $response['message']            = 'Success';
-        $response['status']             = true;
+        if($this->checkRole(['superadministrator'])){
+            $response['data_akademik']      = $data_akademik;
+            $response['user']               = $data_akademik->user;
+            $response['status']             = true;
+        }else{
+            $response['massege']            = 'Tidak mempunyai hak akses untuk ini.';
+            $response['data_akademik']      = null;
+            $response['user']               = null;
+            $response['status']             = true;
+        }
+
+
 
         return response()->json($response);
     }
@@ -200,10 +250,19 @@ class DataAkademikController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if($this->checkRole(['superadministrator'])){
+            $response['status'] = true;
+            $response['message'] = 'Tidak mempunyai akses untuk ini.';
+
+            return response()->json($response);
+        }
+
         $data_akademik = $this->data_akademik->findOrFail($id);
+
+        if ($request->input('old_nomor_un') == $request->input('nomor_un'))
         {
             $validator = Validator::make($request->all(), [
-                'nomor_un'          => "required|max:255|unique:{$this->data_akademik->getTable()},nomor_un,{$id},id,deleted_at,NULL",
+                'nomor_un'          => 'required',
                 'nama_siswa'        => 'required',
                 'nomor_kk'          => 'required',
                 'bahasa_indonesia'  => 'required|numeric',
@@ -213,10 +272,25 @@ class DataAkademikController extends Controller
                 'user_id'           => 'required',
 
             ]);
-        if ($validator->fails()) {
-                $error      = true;
-                $message    = $validator->errors()->first();
         } else {
+            $validator = Validator::make($request->all(), [
+                'nomor_un'          => 'required|unique:data_akademiks,nomor_un',
+                'nama_siswa'        => 'required',
+                'nomor_kk'          => 'required',
+                'bahasa_indonesia'  => 'required|numeric',
+                'bahasa_inggris'    => 'required|numeric',
+                'matematika'        => 'required|numeric',
+                'ipa'               => 'required|numeric',
+                'user_id'           => 'required',
+            ]);
+        }
+
+        if ($validator->fails()) {
+            $check = $data_akademik->where('nomor_un',$request->nomor_un)->whereNull('deleted_at')->count();
+
+            if ($check > 0) {
+                $response['message'] = 'Failed Nomor UN : ' . $request->nomor_un . ' already exists';
+            } else {
                 $data_akademik->nomor_un          = $request->input('nomor_un');
                 $data_akademik->nomor_kk          = $request->input('nomor_kk');
                 $data_akademik->nama_siswa        = $request->input('nama_siswa');
@@ -227,14 +301,24 @@ class DataAkademikController extends Controller
                 $data_akademik->ipa               = $request->input('ipa');
                 $data_akademik->save();
 
-                $error      = false;
-                $message    = 'Success';
+                $response['message'] = 'success';
             }
+        } else {
+            $data_akademik->nomor_un          = $request->input('nomor_un');
+            $data_akademik->nomor_kk          = $request->input('nomor_kk');
+            $data_akademik->nama_siswa        = $request->input('nama_siswa');
+            $data_akademik->user_id           = $request->input('user_id');
+            $data_akademik->bahasa_indonesia  = $request->input('bahasa_indonesia');
+            $data_akademik->bahasa_inggris    = $request->input('bahasa_inggris');
+            $data_akademik->matematika        = $request->input('matematika');
+            $data_akademik->ipa               = $request->input('ipa');
+            $data_akademik->save();
+
+            $response['message'] = 'success';
         }
 
-        $response['error']      = $error;
-        $response['message']    = $message;
-        $response['status']     = true;
+        $response['status'] = true;
+
         return response()->json($response);
     }
 
@@ -244,8 +328,16 @@ class DataAkademikController extends Controller
      * @param  \App\DataAkademik  $data_akademik
      * @return \Illuminate\Http\Response
      */
+
     public function destroy($id)
     {
+        if($this->checkRole(['superadministrator'])){
+            $response['status']     = true;
+            $response['message']    = 'Tidak mempunyai akses untuk ini.';
+
+            return response()->json($response);
+        }
+
         $data_akademik = $this->data_akademik->findOrFail($id);
 
         if ($data_akademik->delete()) {
@@ -255,5 +347,12 @@ class DataAkademikController extends Controller
         }
 
         return json_encode($response);
+    }
+
+    /* Check Role */
+
+    protected function checkRole($role = array())
+    {
+        return Auth::user()->hasRole($role);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['prefix' => 'api/data-akademik', 'middleware' => ['web']], function() {
+Route::group(['prefix' => 'api/data-akademik', 'middleware' => ['web','auth:api']], function() {
     $controllers = (object) [
         'index'     => 'Bantenprov\DataAkademik\Http\Controllers\DataAkademikController@index',
         'create'    => 'Bantenprov\DataAkademik\Http\Controllers\DataAkademikController@create',
