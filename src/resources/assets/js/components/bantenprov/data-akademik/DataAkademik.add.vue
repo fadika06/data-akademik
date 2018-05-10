@@ -40,13 +40,27 @@
         <validate tag="div">
           <div class="form-group">
             <label for="nomor_kk">Nomor KK </label>
-            <input type="text" class="form-control" id="nomor_kk" v-model="model.nomor_kk" name="nomor_kk" placeholder="Nomor KK" required>
-            <field-messages name="nomor_kk" show="$invalid && $submitted" class="text-danger">
+            <input type="text" class="form-control" id="nomor_kk" v-model="model.nomor_kk" name="nomor_kk" placeholder="Nomor KK" >
+              <!-- <field-messages name="nomor_kk" show="$invalid && $submitted" class="text-danger">
               <small class="form-text text-success">Looks good!</small>
               <small class="form-text text-danger" slot="required">This field is a required field</small>
-            </field-messages>
+                          </field-messages>  -->
           </div>
         </validate>
+
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <validate tag="div">
+              <label for="tanggal_lahir">Tanggal Lahir</label>
+              <input type="text" class="form-control" name="tanggal_lahir" v-model="model.tanggal_lahir" placeholder="Tanggal Lahir" required>
+
+              <field-messages name="tanggal_lahir" show="$invalid && $submitted" class="text-danger">
+                <small class="form-text text-success">Looks good!</small>
+                <small class="form-text text-danger" slot="required">this field required field</small>
+              </field-messages>
+            </validate>
+          </div>
+        </div>
 
         <validate tag="div">
           <div class="form-group">
@@ -126,6 +140,7 @@ export default {
       model: {
         nomor_un          : '',
         nomor_kk          : '',
+        tanggal_lahir     : '',
         nama_siswa        : '',
         bahasa_indonesia  : '',
         bahasa_inggris    : '',
@@ -181,6 +196,7 @@ export default {
             user_id          : this.model.user.id,
             nomor_un         : this.model.nomor_un,
             nomor_kk         : this.model.nomor_kk,
+            tanggal_lahir    : this.model.tanggal_lahir,
             nama_siswa       : this.model.nama_siswa,
             bahasa_indonesia : this.model.bahasa_indonesia,
             bahasa_inggris   : this.model.bahasa_inggris,
@@ -232,6 +248,7 @@ export default {
             this.model.user             = response.data.user.id;
             this.model.nomor_un         = response.data.nomor_un;
             this.model.nomor_kk         = response.data.nomor_kk;
+            this.model.tanggal_lahir    = response.data.tanggal_lahir;
             this.model.nama_siswa       = response.data.nama_siswa;
             this.model.bahasa_indonesia = response.data.bahasa_indonesia;
             this.model.bahasa_inggris   = response.data.bahasa_inggris;
